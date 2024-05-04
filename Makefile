@@ -44,11 +44,14 @@ LIBS		=	-L$(LIBDIR) -lmy -lmyprintf
 
 # Sources
 SRC		=	$(SRCDIR)/main.c			\
+			$(SRCDIR)/display_usage.c	\
 			$(SRCDIR)/hangman.c			\
 			$(SRCDIR)/struct.c			\
 			$(SRCDIR)/open_and_read.c	\
 			$(SRCDIR)/select_word.c		\
+			$(SRCDIR)/cmp_words.c		\
 			$(SRCDIR)/display.c			\
+			$(SRCDIR)/win_and_lose.c
 
 # Objects
 OBJ		=	$(SRC:%.c=%.o)

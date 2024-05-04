@@ -6,13 +6,6 @@
 */
 #include "../include/hangman.h"
 
-static void display_usage(char **argv)
-{
-    printf("USAGE:\n\t%s FILE [tries]\n", argv[0]);
-    printf("DESCRIPTION:\n\tFILE\tfile containing the words\n");
-    printf("OPTION:\n\ttries\tnumber of tries\n");
-}
-
 int main(int argc, char **argv)
 {
     if (argc < 2 || argc > 3) {

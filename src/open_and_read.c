@@ -33,7 +33,6 @@ void read_file(int fd, hangman_t *hangman)
 void open_file(char **argv, hangman_t *hangman)
 {
     int fd = open(argv[1], O_RDONLY);
-    struct stat st;
 
     if (fd == -1)
         return;
