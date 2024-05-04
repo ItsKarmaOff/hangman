@@ -37,6 +37,6 @@ void open_file(char **argv, hangman_t *hangman)
 
     if (fd == -1)
         return;
-    read_file(fd, st, hangman);
+    read_file(fd, hangman);
     close(fd);
 }
