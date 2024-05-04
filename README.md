@@ -1,5 +1,4 @@
 # hangman
-***
 binary name: hangman  
 language: C
 
