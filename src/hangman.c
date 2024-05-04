@@ -9,6 +9,7 @@
 void hangman(char **argv)
 {
     hangman_t *hangman = struct_init(argv);
+
     open_file(argv, hangman);
     free_struct(hangman);
 }

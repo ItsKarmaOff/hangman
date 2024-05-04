@@ -11,6 +11,7 @@ void select_word(char **array, hangman_t *hangman)
     size_t len;
     int nb_words = my_arraylen(array);
     int word_selected = rand() % nb_words;
+
     hangman->word = my_strdup(array[word_selected]);
     if (hangman->word == NULL)
         return;

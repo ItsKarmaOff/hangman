@@ -6,11 +6,15 @@
 */
 #include "../include/hangman.h"
 
-void read_file(int fd, struct stat st, hangman_t *hangman)
+void read_file(int fd, hangman_t *hangman)
 {
     char *buff;
     ssize_t bytes_read;
     char **array;
+    struct stat st;
+
+    if (fstat(fd, &st) == -1)
+        return;
     buff = malloc(st.st_size + 1);
     if (buff == NULL)
         return;
@@ -32,8 +36,6 @@ void open_file(char **argv, hangman_t *hangman)
     struct stat st;
 
     if (fd == -1)
-        return;
-    if (fstat(fd, &st) == -1)
         return;
     read_file(fd, st, hangman);
     close(fd);

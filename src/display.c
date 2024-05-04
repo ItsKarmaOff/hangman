@@ -32,7 +32,8 @@ static int win_lose(hangman_t *hangman)
     return 0;
 }
 
-static void prompt(hangman_t *hangman) {
+static void prompt(hangman_t *hangman)
+{
     printf("%s\n", hangman->masked_word);
     printf("Tries: %d\n\n", hangman->tries);
 }
