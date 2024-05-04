@@ -23,7 +23,7 @@ void free_struct(hangman_t *hangman);
 
 void hangman(char **argv);
 void open_file(char **argv, hangman_t *hangman);
-void read_file(int fd, struct stat st, hangman_t *hangman);
+void read_file(int fd, hangman_t *hangman);
 void select_word(char **array, hangman_t *hangman);
 void display(hangman_t *hangman);
 
