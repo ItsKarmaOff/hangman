@@ -1,0 +1,69 @@
+name: hangman
+
+env:
+  EXECUTABLE:
+    hangman
+
+on:
+  [push, pull_request]
+
+jobs:
+  check_coding_style:
+    name: Check coding-style
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.1
+      - name: Check coding-style
+        run: |
+          docker run --rm --security-opt "label:disable" -i -v "$(pwd)":"/mnt/delivery" -v "$(pwd)":"/mnt/reports" ghcr.io/epitech/coding-style-checker:latest "/mnt/delivery" "/mnt/reports"
+      - name: Display coding-style report
+        run: |
+          input="coding-style-reports.log"
+          if [ ! -f "$input" ]; then
+              echo "Error: Input file '$input' not found."
+              curl -X POST -H "Content-Type: application/json" -d '{"content": "Error: Input file '$input' not found."}' $WEBHOOK_URL
+              exit 1
+          fi
+          while IFS=": " read -r file line title description; do
+              echo "::error title=$title coding style error,file=$file,line=$line::$description"
+          done < "$input"
+      - name: Report banana result
+        run: |
+          NB_ERROR=$(cat /tmp/coding-style-reports.log | wc -l)
+          if [ $NB_ERROR -gt 0 ]; then
+            exit 1
+          fi
+
+  check_program_compilation:
+      name: Check program compilation
+      runs-on: ubuntu-latest
+      needs: [check_coding_style]
+      container: epitechcontent/epitest-docker:latest
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v4.1.1
+        - name: Program compilation
+          run: make
+        - name: Clean object files
+          run: make clean
+        - name: Check executable
+          run: |
+            for executable in $EXECUTABLES; do
+              if [ ! -f $executable ]; then
+                echo "Missing executable: $executable"
+                exit 1
+              fi
+            done
+
+  run_tests:
+    name: Run tests
+    runs-on: ubuntu-latest
+    container: epitechcontent/epitest-docker:latest
+    needs: [ check_coding_style, check_program_compilation ]
+    timeout-minutes: 2
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.1
+      - name: Run tests
+        run: make tests_run
